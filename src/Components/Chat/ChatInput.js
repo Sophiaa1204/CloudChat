@@ -1,6 +1,23 @@
-export default () => {
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-  return <div className="chat-footer pb-3 pb-lg-7 position-absolute bottom-0 start-0">
+export default ({ input, setInput, currentRows, onSubmit }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSubmit()
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.keyCode === 13 && e.altKey) {
+        handleSubmit(e)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [handleSubmit])
+  return <div className="chat-footer pb-3 pb-lg-7 bottom-0 start-0">
 
     <div
       className="dz-preview bg-dark"
@@ -9,7 +26,7 @@ export default () => {
     >
     </div>
 
-    <form className="chat-form rounded-pill bg-dark" data-emoji-form="">
+    <form className="chat-form rounded-pill bg-dark" onSubmit={handleSubmit}>
       <div className="row align-items-center gx-0">
         <div className="col-auto">
           <a
@@ -37,58 +54,27 @@ export default () => {
         <div className="col">
           <div className="input-group">
                   <textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
                     className="form-control px-0"
                     placeholder="Type your message..."
                     rows="1"
-                    data-emoji-input=""
                     data-autosize="true"
                     style={{
-                      overflow: 'hidden',
+                      overflowY: 'auto',
                       overflowWrap: 'break-word',
                       resize: 'none',
-                      height: 47,
+                      height: 23 + (currentRows > 15 ? 15 : currentRows) * 24,
                     }}
                   ></textarea>
-
-            <a
-              href="#"
-              className="input-group-text text-body pe-0"
-              data-emoji-btn=""
-            >
-                                                <span className="icon icon-lg">
-                                                    <svg
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                      width="24"
-                                                      height="24"
-                                                      viewBox="0 0 24 24"
-                                                      fill="none"
-                                                      stroke="currentColor"
-                                                      stroke-width="2"
-                                                      stroke-linecap="round"
-                                                      stroke-linejoin="round"
-                                                      className="feather feather-smile"
-                                                    ><circle
-                                                      cx="12"
-                                                      cy="12"
-                                                      r="10"
-                                                    ></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line
-                                                      x1="9"
-                                                      y1="9"
-                                                      x2="9.01"
-                                                      y2="9"
-                                                    ></line><line
-                                                      x1="15"
-                                                      y1="9"
-                                                      x2="15.01"
-                                                      y2="9"
-                                                    ></line></svg>
-                                                </span>
-            </a>
           </div>
         </div>
 
         <div className="col-auto">
-          <button className="btn btn-icon btn-primary rounded-circle ms-5">
+          <button
+            type={'submit'}
+            className="btn btn-icon btn-primary rounded-circle ms-5"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
