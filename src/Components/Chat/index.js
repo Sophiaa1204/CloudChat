@@ -8,22 +8,46 @@ export default () => {
 
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([
-    { 'role': 'user', 'content': `Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple? Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple? Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple? Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?`, time: dayjs().format('hh:mm A') }
+    {
+      'role': 'user', 'content': `Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+     Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+      Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+       Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+       `, time: dayjs().format('hh:mm A'),
+    },
+    {
+      'role': 'assistant',
+      'content': `Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+     Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+      Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+       Hey, Marshall! How are you? Can you please change the color theme of the website to pink and purple?
+       `,
+      time: dayjs().format('hh:mm A'),
+    },
   ])
   const currentRows = useMemo(() => input.split('\n').length, [input])
+  const handleRegenerate = (newMessages) => {
+    //TODO
+    console.log(newMessages)
+  }
   const handleSubmit = () => {
     console.log(messages, input)
     setMessages([
       ...messages,
       { 'role': 'user', 'content': input, time: dayjs().format('hh:mm A') },
     ])
+    //TODO
   }
 
   return <main className="main is-visible" data-dropzone-area="">
     <div className="container h-100">
       <div className="d-flex flex-column h-100 position-relative">
         <ChatHeader />
-        <ChatContent messages={messages} currentRows={currentRows} />
+        <ChatContent
+          messages={messages}
+          currentRows={currentRows}
+          onRegenerate={handleRegenerate}
+        />
         <ChatInput
           currentRows={currentRows}
           input={input}

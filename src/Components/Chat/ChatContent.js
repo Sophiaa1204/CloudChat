@@ -1,6 +1,12 @@
-import { useMemo, useState } from 'react'
+import {
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
-const MessageAction = () => {
+const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
 
   return <div className="message-action">
     <div className="dropdown">
@@ -30,10 +36,10 @@ const MessageAction = () => {
       </a>
 
       <ul className="dropdown-menu">
-        <li>
-          <a
+        {role === 'user' && <li>
+          <button
+            onClick={onEdit}
             className="dropdown-item d-flex align-items-center"
-            href="#"
           >
             <span className="me-auto">Edit</span>
             <div className="icon">
@@ -53,97 +59,97 @@ const MessageAction = () => {
                 <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
               </svg>
             </div>
-          </a>
-        </li>
-        <li>
-          <a
-            className="dropdown-item d-flex align-items-center"
-            href="#"
-          >
-            <span className="me-auto">Reply</span>
-            <div className="icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-corner-up-left"
-              >
-                <polyline points="9 14 4 9 9 4"></polyline>
-                <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
-              </svg>
-            </div>
-          </a>
-        </li>
-        <li>
-          <hr className="dropdown-divider" />
-        </li>
-        <li>
-          <a
-            className="dropdown-item d-flex align-items-center text-danger"
-            href="#"
-          >
-            <span className="me-auto">Delete</span>
-            <div className="icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="feather feather-trash-2"
-              >
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                <line
-                  x1="10"
-                  y1="11"
-                  x2="10"
-                  y2="17"
-                ></line>
-                <line
-                  x1="14"
-                  y1="11"
-                  x2="14"
-                  y2="17"
-                ></line>
-              </svg>
-            </div>
-          </a>
-        </li>
+          </button>
+        </li>}
+        {
+          role !== 'user' && <li>
+            <button
+              onClick={onCopy}
+              className="dropdown-item d-flex align-items-center"
+            >
+              <span className="me-auto">Copy</span>
+              <div className="icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="feather feather-corner-up-left"
+                >
+                  <polyline points="9 14 4 9 9 4"></polyline>
+                  <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+                </svg>
+              </div>
+            </button>
+          </li>
+        }
+        {
+          role !== 'user' && isLast && <li>
+            <button
+              onClick={onRefresh}
+              className="dropdown-item d-flex align-items-center"
+
+            >
+              <span className="me-auto">Refresh</span>
+              <div className="icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-clockwise"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                  />
+                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+                </svg>
+              </div>
+            </button>
+          </li>
+        }
+
       </ul>
     </div>
   </div>
 }
-const ContentEdit = ({ defaultContent }) => {
-  const [input, setInput] = useState(defaultContent)
-  const currentRows = useMemo(() => input.split('\n').length, [input])
-
-  return <textarea
-    value={input}
-    onChange={(e) => setInput(e.target.value)}
-    className="form-control"
-    placeholder="Type your message..."
-    rows="1"
-    data-autosize="true"
-    style={{
-      overflowY: 'auto',
-      overflowWrap: 'break-word',
-      resize: 'none',
-      height: 23 + (currentRows > 15 ? 15 : currentRows) * 24,
-    }}
-  ></textarea>
-}
-const ContentBody = ({ file, content }) => {
+const ContentEdit = forwardRef(({ defaultContent }, ref) => {
+    const [input, setInput] = useState(defaultContent)
+    const currentRows = useMemo(() => input.split('\n').length, [input])
+    useImperativeHandle(ref, () => ({
+      input,
+    }), [input])
+    return <textarea
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      className="form-control"
+      placeholder="Type your message..."
+      rows="1"
+      data-autosize="true"
+      style={{
+        overflowY: 'auto',
+        overflowWrap: 'break-word',
+        resize: 'none',
+        height: 23 + (currentRows > 15 ? 15 : currentRows) * 24,
+      }}
+    ></textarea>
+  },
+)
+const ContentBody = ({
+  file,
+  content,
+  role,
+  onEdit,
+  onCopy,
+  onRefresh,
+  isLast,
+}) => {
 
   return <div className="message-content">
     <div className="message-text">
@@ -194,13 +200,40 @@ const ContentBody = ({ file, content }) => {
       <p>{content}</p>
     </div>
 
-    <MessageAction />
+    <MessageAction
+      isLast={isLast}
+      role={role}
+      onEdit={onEdit}
+      onCopy={onCopy}
+      onRefresh={onRefresh}
+    />
   </div>
 }
-const SubmitButton = () => {
+
+const CancelButton = ({ onClick }) => {
 
   return <button
-    className="btn btn-sm btn-icon btn-primary rounded-circle ms-5"
+    onClick={onClick}
+    className="btn btn-sm btn-icon btn-secondary rounded-circle ms-3"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      className="bi bi-x-lg"
+      viewBox="0 0 16 16"
+    >
+      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+    </svg>
+  </button>
+}
+
+const SubmitButton = ({ onClick }) => {
+
+  return <button
+    onClick={onClick}
+    className="btn btn-sm btn-icon btn-primary rounded-circle ms-3"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -219,8 +252,14 @@ const SubmitButton = () => {
     </svg>
   </button>
 }
-const MessageItem = ({ role, content, time, file }) => {
+const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
   const [isEdit, setIsEdit] = useState(false)
+  const contentEditRef = useRef(null)
+  const handleSubmit = () => {
+    if (contentEditRef.current) {
+      onSubmit(contentEditRef.current.input)
+    }
+  }
   return <div className={`message ${role === 'user' ? 'message-out' : ''}`}>
     <a
       href="#"
@@ -239,14 +278,25 @@ const MessageItem = ({ role, content, time, file }) => {
       <div className="message-body">
         {
           isEdit
-            ? <ContentEdit defaultContent={content} />
-            : <ContentBody content={content} file={file} />
+            ? <ContentEdit ref={contentEditRef} defaultContent={content} />
+            : <ContentBody
+              isLast={isLast}
+              role={role}
+              content={content}
+              file={file}
+              onRefresh={onSubmit}
+              onEdit={() => setIsEdit(true)}
+              onCopy={() => navigator.clipboard.writeText(content)} //TODO UX purpose
+            />
         }
       </div>
       <div className="message-footer">
         {
           isEdit
-            ? <SubmitButton></SubmitButton>
+            ? <>
+              <CancelButton onClick={() => setIsEdit(false)} />
+              <SubmitButton onClick={() => handleSubmit()} />
+            </>
             : <span className="extra-small text-muted">{time}</span>
         }
 
@@ -294,8 +344,18 @@ const DateDivider = ({ date }) => {
   </div>
 }
 
-export default ({ messages = [] }) => {
-
+export default ({ messages = [], onRegenerate }) => {
+  const handleSubmit = (role, idx, input) => {
+    if (role === 'user') {
+      const updatedMessage = {
+        ...messages[idx],
+        content: input,
+      }
+      onRegenerate([...messages.slice(0, idx), updatedMessage])
+    } else {
+      onRegenerate(messages.slice(0, idx))
+    }
+  }
   return <div
     className="chat-body hide-scrollbar flex-1"
   >
@@ -317,10 +377,12 @@ export default ({ messages = [] }) => {
         ></MessageItem>
         <TypingItem />
         {
-          messages.map(item => <MessageItem
+          messages.map((item, index) => <MessageItem
+            onSubmit={(__input) => handleSubmit(item.role, index, __input)}
             role={item.role}
             content={item.content}
             time={item.time}
+            isLast={messages.findLastIndex(item => item.role === 'assistant') === index}
           />)
         }
       </div>
