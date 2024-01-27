@@ -1,7 +1,11 @@
 import { create } from 'zustand'
 
 const useUserStore = create((set) => ({
-  token: 'token',
+  email: null,
+  id: null,
+  info: {},
+  chat: [],
+  set: (data) => set(data),
 }))
 
 export default useUserStore

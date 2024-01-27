@@ -1,8 +1,7 @@
 import { useUserStore } from '../../Store'
 
 export default () => {
-  const token = useUserStore(s => s.token)
-  console.log(token)
+  const { email, info, id } = useUserStore()
   return <div>
     <div
       className="tab-pane fade h-100 active show"
@@ -240,7 +239,7 @@ export default () => {
                               <circle cx="5" cy="12" r="1"></circle>
                             </svg>
                           </a>
-                          <ul className="dropdown-menu" >
+                          <ul className="dropdown-menu">
                             <li><a className="dropdown-item" href="#">Show less
                               often</a></li>
                             <li><a className="dropdown-item" href="#">Hide</a>

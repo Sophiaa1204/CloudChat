@@ -1,8 +1,33 @@
+import { useRef, useState } from 'react'
+import message from '../../Utils/message'
+import useFirebase from '../../Hooks/useFirebase'
 import loginSvg from '../../Assets/signin.svg'
 import LooSvg from '../../Assets/logo.svg'
 
 export default () => {
+  const {
+    signInWithEmail,
+    signInWithType,
+    resetPassword,
+  } = useFirebase()
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  })
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    signInWithEmail(form)
+  }
 
+  const handleReset = (e) => {
+    e.preventDefault()
+    const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (emailRegExp.test(form.email)) {
+      resetPassword(form)
+    } else {
+      message.error('Please enter a valid email address.')
+    }
+  }
   return <section className={'vh-xxl-100'}>
     <div className="container h-100 d-flex px-0 px-sm-4">
       <div className="row justify-content-center align-items-center m-auto">
@@ -57,18 +82,35 @@ export default () => {
                     </svg>
 
                   </a>
-                  <div className="mb-2" style={{fontSize:36,fontWeight:'bold'}}>Welcome back</div>
-                  <p className="mb-0">New here?<a href="sign-up.html"> Create an
-                    account</a></p>
-
-                  <form className="mt-4 text-start">
+                  <div
+                    className="mb-2"
+                    style={{ fontSize: 36, fontWeight: 'bold' }}
+                  >Welcome back
+                  </div>
+                  <form
+                    className="mt-4 text-start"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="mb-3">
                       <label className="form-label">Enter email id</label>
-                      <input type="email" className="form-control" />
+                      <input
+                        onChange={(e) => setForm({
+                          ...form,
+                          email: e.target.value,
+                        })}
+                        value={form.email}
+                        required type="email" className="form-control"
+                      />
                     </div>
                     <div className="mb-3 position-relative">
                       <label className="form-label">Enter password</label>
                       <input
+                        onChange={(e) => setForm({
+                          ...form,
+                          password: e.target.value,
+                        })}
+                        value={form.password}
+                        required
                         className="form-control fakepassword"
                         type="password"
                         id="psw-input"
@@ -78,7 +120,7 @@ export default () => {
 										</span>
                     </div>
                     <div className="mb-3 d-sm-flex justify-content-between">
-                      <div>
+                      {/*<div>
                         <input
                           type="checkbox"
                           className="form-check-input"
@@ -88,8 +130,9 @@ export default () => {
                           className="form-check-label"
                           htmlFor="rememberCheck"
                         >Remember me?</label>
-                      </div>
-                      <a href="forgot-password.html">Forgot password?</a>
+                      </div>*/}
+                      <a role={'button'} onClick={handleReset}>Forgot
+                        password?</a>
                     </div>
                     <div>
                       <button
@@ -106,14 +149,14 @@ export default () => {
                     </div>
 
                     <div className="vstack gap-3">
-                      <a
-                        href="#"
+                      <button
+                        onClick={() => signInWithType('google')}
                         className="btn btn-light mb-0"
                       >
                         <svg
-                          height="16"
-                          viewBox="0 0 20 20"
-                          width="16"
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          width="100%"
                           fit=""
                           preserveAspectRatio="xMidYMid meet"
                           focusable="false"
@@ -136,12 +179,62 @@ export default () => {
                           ></path>
                         </svg>
                         Sign
-                        in with Google</a>
-                      <a
+                        in with Google
+                      </button>
+                      {/*<a
                         href="#"
                         className="btn btn-light mb-0"
-                      ><i className="fab fa-fw fa-facebook-f text-facebook me-2"></i>Sign
-                        in with Facebook</a>
+                      >
+                        <svg
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          width="100%"
+                          fit=""
+                          preserveAspectRatio="xMidYMid meet"
+                          focusable="false"
+                        >
+                          <path
+                            d="M18.007 19c.55 0 .993-.444.993-.993V1.993A.992.992 0 0018.007 1H1.993A.992.992 0 001 1.993v16.014c0 .55.444.993.993.993h16.014zm-4.587 0v-6.97h2.34l.35-2.717h-2.69V7.578c0-.786.218-1.322 1.346-1.322h1.438v-2.43a18.915 18.915 0 00-2.096-.108c-2.073 0-3.494 1.267-3.494 3.59v2.005H8.268v2.717h2.346V19h2.806z"
+                            fill="#3B5998"
+                            fill-rule="evenodd"
+                          ></path>
+                        </svg>
+                        Sign
+                        in with Facebook</a>*/}
+                      {/*<a
+                        href="#"
+                        className="btn btn-light mb-0"
+                      >
+                        <svg
+                          height="100%"
+                          viewBox="0 0 24 24"
+                          width="100%"
+                          fit=""
+                          preserveAspectRatio="xMidYMid meet"
+                          focusable="false"
+                        >
+                          <path
+                            d="M20 3.924a8.212 8.212 0 01-2.357.646 4.111 4.111 0 001.804-2.27c-.792.47-1.67.812-2.605.996A4.103 4.103 0 009.85 7.038a11.645 11.645 0 01-8.458-4.287 4.118 4.118 0 00-.555 2.066 4.1 4.1 0 001.825 3.415 4.074 4.074 0 01-1.858-.513v.052a4.105 4.105 0 003.29 4.022 4.01 4.01 0 01-1.852.072 4.106 4.106 0 003.833 2.85A8.268 8.268 0 010 16.411a11.602 11.602 0 006.29 1.846c7.547 0 11.674-6.253 11.674-11.675 0-.18-.004-.355-.01-.53.8-.58 1.496-1.3 2.046-2.125"
+                            fill="#55ACEE"
+                            fill-rule="evenodd"
+                          ></path>
+                        </svg>
+                        Sign
+                        in with Twitter</a>*/}
+                      <button
+                        onClick={() => signInWithType('github')}
+                        className="btn btn-light mb-0"
+                        style={{ fontSize: 0 }}
+                      ><img
+                        style={{ verticalAlign: 'middle', marginRight: 4 }}
+                        width={14}
+                        height={14}
+                        alt=""
+                        className="provider-icon ng-star-inserted"
+                        src="//www.gstatic.com/mobilesdk/230906_mobilesdk/github-mark-white.svg"
+                      />
+                        <span style={{ fontSize: 15, verticalAlign: 'middle' }}>Sign in with GitHub</span>
+                      </button>
                     </div>
 
                     <div className="text-primary-hover text-body mt-3 text-center"> Copyrights

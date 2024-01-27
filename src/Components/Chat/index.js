@@ -31,12 +31,12 @@ export default () => {
     console.log(newMessages)
   }
   const handleSubmit = () => {
-    console.log(messages, input)
+
     setMessages([
       ...messages,
       { 'role': 'user', 'content': input, time: dayjs().format('hh:mm A') },
     ])
-    //TODO
+    setInput('')
   }
 
   return <main className="main is-visible" data-dropzone-area="">
