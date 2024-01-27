@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
+      - name: Change Ownership of .git Directory
+        run: |
+          sudo chown -R $USER:$USER /usr/bin/git
       - uses: actions/checkout@v1
         with:
           submodules: true
