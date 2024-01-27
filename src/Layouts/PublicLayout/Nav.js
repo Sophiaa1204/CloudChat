@@ -303,8 +303,12 @@ export default () => {
           data-bs-toggle="modal"
           data-bs-target="#modal-profile"
         >
-          <div className="avatar avatar-online mx-auto">
-            <img className="avatar-img" src="assets/img/avatars/1.jpg" alt="" />
+          <div className="avatar avatar-online mx-auto bg-success align-content-center justify-content-center">
+            {
+              info.photoURL
+                ? <img className="avatar-img" src={info.photoURL} alt="" />
+                : <span>{email ? email.slice(0, 1) : 'U'}</span>
+            }
           </div>
         </a>
       </li>
