@@ -1,5 +1,8 @@
-export default () => {
+import { useUserStore } from '../../Store'
 
+export default () => {
+  const { email, info, id } = useUserStore()
+  console.log(info)
   return <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
     <a href="index.html" title="Messenger" className="d-none d-xl-block mb-6">
       <svg

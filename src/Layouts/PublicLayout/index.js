@@ -1,18 +1,21 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { Navigate, Outlet } from 'react-router'
+import { Navigate, Outlet, useNavigate } from 'react-router'
 import '../../Assets/PublicLayout.css'
-import useUserStore from 'src/Store/user'
+import { useUserStore } from '../../Store'
 import useFirebase from '../../Hooks/useFirebase'
 import Chat from '../../Components/Chat'
 import Nav from './Nav'
 
 export default () => {
   const auth = getAuth()
+  console.log(auth)
   const { set: setUser } = useUserStore()
+  const navigate = useNavigate()
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      return <Navigate to={'/auth/oauth2'} replace={true} />
+      navigate({ pathname: '/auth/oauth2' })
     } else {
+      console.log('user', user)
       setUser({
         email: user.email,
         id: user.uid,

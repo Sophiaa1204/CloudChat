@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import { createOrUpdateUser } from '../Api'
 import message from '../Utils/message'
 import {
@@ -47,6 +48,7 @@ const providerMap = {
   },
 }
 export default () => {
+  const navigate = useNavigate()
 
   const saveUserInfo = async(user) => {
     return createOrUpdateUser({
@@ -73,7 +75,7 @@ export default () => {
         await sendEmailVerification(userCredential.user)
       } else {
         message.success('Login successfully')
-        //TODO redirect to home page
+        navigate('/')
       }
     } catch (error) {
       const errorCode = error.code
@@ -130,6 +132,8 @@ export default () => {
         ...user,
         signInMethod: credential.signInMethod,
       })
+      message.success('Login successfully')
+      navigate('/')
     } catch (error) {
       console.log(error)
       message.error('Something went wrong')
