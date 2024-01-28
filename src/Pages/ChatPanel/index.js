@@ -58,7 +58,15 @@ function ChatItem({ data, onDelete, onSelect }) {
           </div>
 
           <div className="d-flex">
-            <div className="me-auto">{lastMessage}</div>
+            <div
+              className="me-auto" style={{
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+            >{lastMessage}</div>
 
             <div className="dropdown ms-5">
               <a
@@ -106,17 +114,35 @@ function ChatItem({ data, onDelete, onSelect }) {
 
 export default () => {
   const { email, info, id } = useUserStore()
-  const { setInfo } = useContentStore()
+  const { setInfo, setInit } = useContentStore()
   const { chats, setChats } = useChatStore()
+  const sortedChats = useMemo(() => {
+    const sortByDate = chats.map(item => dayjs(item._ts * 1000).format(
+      'YYYY-MM-DD'))
+    const uniqueDates = [...new Set(sortByDate)]
+    return uniqueDates.map(date => ({
+      date,
+      chats: chats.filter(item => dayjs(item._ts * 1000)
+      .format('YYYY-MM-DD') === date),
+    })).sort((a, b) => dayjs(b.date).unix() - dayjs(a.date).unix())
+    .map(item => {
+      return {
+        ...item,
+        date: (item.date === dayjs().format('YYYY-MM-DD'))
+          ? 'Today'
+          : item.date,
+      }
+    })
+  }, [chats])
   useEffect(() => {
     id && getChats(id).then(res => {
-      setChats(res)
-      console.log(res)
+      setChats(res.sort((a, b) => b._ts - a._ts))
     })
   }, [id])
   const handleDelete = async(id) => {
-    await deleteChat(id)
     setChats(chats.filter(chat => chat.id !== id))
+    setInit()
+    await deleteChat(id)
   }
   return <div>
     <div
@@ -132,28 +158,30 @@ export default () => {
               <h2 className="fw-bold m-0">Chats</h2>
             </div>
 
-            <div className="card-list mt-8">
+            {
+              sortedChats.map(sortedChat => <div className="card-list mt-8">
 
-              <div className="d-flex align-items-center my-4 px-6">
-                <small className="text-muted me-auto">Previous</small>
+                <div className="d-flex align-items-center my-4 px-6">
+                  <small className="text-muted me-auto">{sortedChat.date}</small>
 
-                {/*<a href="#" className="text-muted small">Clear all</a>*/}
-              </div>
-              {
-                chats.map(chat => <ChatItem
-                  onSelect={() => setInfo({
-                    id: chat.id,
-                    key: chat.key,
-                    messages: chat.messages,
-                    model: chat.model,
-                    input: '',
-                    isTyping: false,
-                  })}
-                  onDelete={handleDelete}
-                  data={chat}
-                />)
-              }
-            </div>
+                  {/*<a href="#" className="text-muted small">Clear all</a>*/}
+                </div>
+                {
+                  sortedChat.chats.map(chat => <ChatItem
+                    onSelect={() => setInfo({
+                      id: chat.id,
+                      key: chat.key,
+                      messages: chat.messages,
+                      model: chat.model,
+                      input: '',
+                      isTyping: false,
+                    })}
+                    onDelete={handleDelete}
+                    data={chat}
+                  />)
+                }
+              </div>)
+            }
 
           </div>
         </div>

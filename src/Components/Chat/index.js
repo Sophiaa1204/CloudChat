@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useUserStore } from '../../Store'
 import chat from '../../Store/chat'
 import useContentStore from '../../Store/content'
@@ -20,14 +20,23 @@ export default () => {
     model,
     key,
     setInput,
+    isTyping,
     messages,
     setMessages,
     setIsTyping,
     setInfo,
   } = useContentStore()
   const { id: userId } = useUserStore()
-  const { updateChat, addChat } = useChatStore()
+  const { updateChat, addChat, chats } = useChatStore()
   const currentRows = useMemo(() => input.split('\n').length, [input])
+  useEffect(() => {
+    if (controller) {
+      controller.abort('abort')
+      controller = null
+      signal = null
+      setMessages(messages.slice(0, messages.length - 1))
+    }
+  }, [chatId])
   const handleRegenerate = (newMessages) => {
     console.log(newMessages)
   }
@@ -65,8 +74,16 @@ export default () => {
     }
   }
   const invokeSaveChat = async(currentMessages) => {
-    if (chatId) {
+    const isUpdate = chats.find(i => i.id === chatId)
+    if (isUpdate) {
       updateChat({
+        id: chatId,
+        model: model,
+        key: key,
+        messages: currentMessages,
+      })
+    } else {
+      addChat({
         id: chatId,
         model: model,
         key: key,
@@ -75,44 +92,71 @@ export default () => {
     }
     const data = await createOrUpdateMessages({
       messages: currentMessages,
-      id: chatId || uuid.v4(),
+      id: chatId,
       model,
       key,
       userId,
     })
-    setInfo({
-      id: data.id,
-      model,
-      key,
-    })
-    if (!chatId) {
-      addChat(data)
+    if (!isUpdate) {
+      updateChat(data)
     }
-
   }
   const handleAbort = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
-    controller && controller.abort('abort')
+    e?.stopPropagation()
+    e?.preventDefault()
+    if (controller) {
+      controller.abort('abort')
+      controller = null
+      signal = null
+    }
+
     setIsTyping(false)
     setMessages(messages.slice(0, messages.length - 1))
   }
-  return <main className="main is-visible" data-dropzone-area="">
-    <div className="h-100">
-      <div className="d-flex flex-column h-100 position-relative">
-        <ChatHeader />
-        <ChatContent
-          currentRows={currentRows}
-          onRegenerate={handleRegenerate}
-        />
-        <ChatInput
-          currentRows={currentRows}
-          input={input}
-          setInput={setInput}
-          onSubmit={handleSubmit}
-          onAbort={handleAbort}
-        />
+  return chatId
+    ? <main className="main is-visible" data-dropzone-area="">
+      <div className="h-100">
+        <div className="d-flex flex-column h-100 position-relative">
+          <ChatHeader />
+          <ChatContent
+            currentRows={currentRows}
+            onRegenerate={handleRegenerate}
+          />
+          <ChatInput
+            currentRows={currentRows}
+            input={input}
+            setInput={setInput}
+            onSubmit={handleSubmit}
+            onAbort={handleAbort}
+          />
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+    : <main className="main">
+      <div className="container h-100">
+
+        <div className="d-flex flex-column h-100 justify-content-center text-center">
+          <div className="mb-6">
+                            <span className="icon icon-xl text-muted">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="feather feather-message-square"
+                                ><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            </span>
+          </div>
+
+          <p className="text-muted">Pick a chat from left menu, <br /> and
+            start your conversation.</p>
+        </div>
+
+      </div>
+    </main>
 }

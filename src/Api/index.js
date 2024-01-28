@@ -101,15 +101,10 @@ export const getChats = (id) => new Promise(async(resolve, reject) => {
 
 export const deleteChat = (id) => new Promise(async(resolve, reject) => {
   const resp = await fetch(
-    `https://prod-49.eastus.logic.azure.com/workflows/c43a1a337f4748a7be7fb6ef429ca42f/triggers/manual/paths/invoke/{chatId}?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oXHp-FGKYbvBebiJ1gOFmhnXfLRsUVBbGLxjhz0mryM`,
+    `https://prod-49.eastus.logic.azure.com/workflows/c43a1a337f4748a7be7fb6ef429ca42f/triggers/manual/paths/invoke/${id}?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oXHp-FGKYbvBebiJ1gOFmhnXfLRsUVBbGLxjhz0mryM`,
     {
       method: 'DELETE',
     },
   )
-  const json = await resp.json()
-  if (json.error) {
-    reject(json.error)
-  } else {
-    resolve(json)
-  }
+  resolve()
 })

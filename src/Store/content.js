@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import * as uuid from 'uuid'
 
 const useContentStore = create((set) => ({
   id: null,
@@ -8,7 +9,7 @@ const useContentStore = create((set) => ({
   input: '',
   isTyping: false,
   setInit: () => set({
-    id: null,
+    id: uuid.v4(),
     model: null,
     messages: [],
     isTyping: false,
