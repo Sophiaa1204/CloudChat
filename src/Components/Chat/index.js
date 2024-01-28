@@ -1,7 +1,10 @@
 import dayjs from 'dayjs'
 import { useCallback, useMemo, useState } from 'react'
 import { useUserStore } from '../../Store'
+import chat from '../../Store/chat'
+import useContentStore from '../../Store/content'
 import useChatStore from '../../Store/chat'
+
 import { cloudChat, createOrUpdateMessages } from '../../Api'
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
@@ -21,8 +24,9 @@ export default () => {
     setMessages,
     setIsTyping,
     setInfo,
-  } = useChatStore()
+  } = useContentStore()
   const { id: userId } = useUserStore()
+  const { updateChat, addChat } = useChatStore()
   const currentRows = useMemo(() => input.split('\n').length, [input])
   const handleRegenerate = (newMessages) => {
     console.log(newMessages)
@@ -61,6 +65,14 @@ export default () => {
     }
   }
   const invokeSaveChat = async(currentMessages) => {
+    if (chatId) {
+      updateChat({
+        id: chatId,
+        model: model,
+        key: key,
+        messages: currentMessages,
+      })
+    }
     const data = await createOrUpdateMessages({
       messages: currentMessages,
       id: chatId || uuid.v4(),
@@ -70,9 +82,13 @@ export default () => {
     })
     setInfo({
       id: data.id,
-      model: data.model,
-      key: data.key,
+      model,
+      key,
     })
+    if (!chatId) {
+      addChat(data)
+    }
+
   }
   const handleAbort = (e) => {
     e.stopPropagation()

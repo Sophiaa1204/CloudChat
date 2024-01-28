@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import useChatStore from '../../Store/chat'
+import useContentStore from '../../Store/content'
 
 const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
 
@@ -346,7 +346,7 @@ const DateDivider = ({ date }) => {
 }
 
 export default ({ onRegenerate }) => {
-  const { messages, isTyping } = useChatStore()
+  const { messages, isTyping } = useContentStore()
   const handleSubmit = (role, idx, input) => {
     if (role === 'user') {
       const updatedMessage = {

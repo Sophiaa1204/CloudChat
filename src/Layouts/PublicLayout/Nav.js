@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
+import useContentStore from '../../Store/content'
 import { useUserStore } from '../../Store'
 
 export default () => {
   const { email, info, id } = useUserStore()
+  const { setInit } = useContentStore()
   return <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
     <a href="index.html" title="Messenger" className="d-none d-xl-block mb-6">
       <svg
@@ -57,10 +59,10 @@ export default () => {
       </li>
 
       <li className="nav-item">
-        <Link
+        <a
           className="nav-link py-0 py-lg-8 active"
           id="tab-create-chat"
-          to="/init"
+          onClick={() => setInit()}
           title="Create chat"
           role="tab"
           aria-selected="true"
@@ -82,7 +84,7 @@ export default () => {
               <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
             </svg>
           </div>
-        </Link>
+        </a>
       </li>
 
       <li className="nav-item">

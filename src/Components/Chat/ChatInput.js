@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import useChatStore from '../../Store/chat'
+import useContentStore from '../../Store/content'
 
 export default ({ input, setInput, currentRows, onSubmit, onAbort }) => {
-  const { messages, isTyping } = useChatStore()
+  const { messages, isTyping } = useContentStore()
   const [isFocus, setIsFocus] = useState(false)
   const handleSubmit = (e) => {
     e.preventDefault()

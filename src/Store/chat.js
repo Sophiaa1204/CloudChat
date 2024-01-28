@@ -1,39 +1,24 @@
 import { create } from 'zustand'
 
 const useChatStore = create((set) => ({
-  id: null,
-  model: null,
-  messages: [],
-  key: null,
-  input: '',
-  isTyping: false,
-  setInit: () => set({
-    id: null,
-    model: null,
-    messages: [],
-    isTyping: false,
-    input: '',
+  chats: [],
+  setChats: (chats) => set({
+    chats: chats,
   }),
-  setInfo: (data) => set({
-    ...data,
+  updateChat: (chat) => set(state => {
+    const index = state.chats.findIndex(i => i.id === chat.id)
+    if (index > -1) {
+      state.chats[index] = {
+        ...state.chats[index],
+        ...chat,
+      }
+      return { ...state }
+    }
+    return state
   }),
-  setModel: (data) => set({
-    model: data,
-  }),
-  setIsTyping: (data) => set({
-    isTyping: data,
-  }),
-  setMessages: (data) => set({
-    messages: data,
-  }),
-  setInput: (data) => set({
-    input: data,
-  }),
-  setKey: (data) => set({
-    key: data,
-  }),
-  setId: (data) => set({
-    id: data,
+  addChat: (chat) => set(state => {
+    state.chats.push(chat)
+    return { ...state }
   }),
 }))
 

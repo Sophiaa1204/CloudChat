@@ -15,10 +15,6 @@ export const routes = [
     element: <PublicLayout />,
     children: [
       {
-        path: 'init',
-        element: null,
-      },
-      {
         path: '',
         element: <ChatPanel />,
       },

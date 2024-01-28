@@ -1,3 +1,8 @@
+import dayjs from 'dayjs'
+import { useEffect, useMemo, useState } from 'react'
+import useChatStore from '../../Store/chat'
+import useContentStore from '../../Store/content'
+import { deleteChat, getChats } from '../../Api'
 import { useUserStore } from '../../Store'
 
 const Avatar = () => <div
@@ -21,26 +26,39 @@ const Avatar = () => <div
   </svg>
 </div>
 
-function ChatItem() {
-  return <div className="card border-0">
+function ChatItem({ data, onDelete, onSelect }) {
+  const lastMessage = useMemo(() => {
+    if (data?.messages) {
+      return data?.messages[data?.messages.length - 1].content
+    } else {
+      return ''
+    }
+  }, [data])
+  return <div
+    className="card border-0"
+    style={{ cursor: 'pointer' }}
+    onClick={() => onSelect()}
+  >
     <div className="card-body">
 
       <div className="row gx-5">
         <div className="col-auto">
-
           <Avatar />
         </div>
 
         <div className="col">
           <div className="d-flex align-items-center mb-2">
             <h5 className="me-auto mb-0">
-              <a href="#">William Wright</a>
+              <a href="#">Default Agent</a>
             </h5>
-            <span className="extra-small text-muted ms-2">08:45 PM</span>
+            {data._ts &&
+              <span className="extra-small text-muted ms-2">{
+                dayjs(data._ts * 1000).format('hh:mm A')
+              }</span>}
           </div>
 
           <div className="d-flex">
-            <div className="me-auto">Updated profile picture.</div>
+            <div className="me-auto">{lastMessage}</div>
 
             <div className="dropdown ms-5">
               <a
@@ -68,10 +86,14 @@ function ChatItem() {
                 </svg>
               </a>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Show less
-                  often</a></li>
-                <li><a className="dropdown-item" href="#">Hide</a>
-                </li>
+                <li><a
+                  role={'button'}
+                  className="dropdown-item text-danger"
+                  onClick={(e) => {
+                    onDelete(data.id)
+                    e.stopPropagation()
+                  }}
+                >Delete</a></li>
               </ul>
             </div>
           </div>
@@ -84,6 +106,18 @@ function ChatItem() {
 
 export default () => {
   const { email, info, id } = useUserStore()
+  const { setInfo } = useContentStore()
+  const { chats, setChats } = useChatStore()
+  useEffect(() => {
+    id && getChats(id).then(res => {
+      setChats(res)
+      console.log(res)
+    })
+  }, [id])
+  const handleDelete = async(id) => {
+    await deleteChat(id)
+    setChats(chats.filter(chat => chat.id !== id))
+  }
   return <div>
     <div
       className="tab-pane fade h-100 active show"
@@ -103,9 +137,22 @@ export default () => {
               <div className="d-flex align-items-center my-4 px-6">
                 <small className="text-muted me-auto">Previous</small>
 
-                <a href="#" className="text-muted small">Clear all</a>
+                {/*<a href="#" className="text-muted small">Clear all</a>*/}
               </div>
-              <ChatItem />
+              {
+                chats.map(chat => <ChatItem
+                  onSelect={() => setInfo({
+                    id: chat.id,
+                    key: chat.key,
+                    messages: chat.messages,
+                    model: chat.model,
+                    input: '',
+                    isTyping: false,
+                  })}
+                  onDelete={handleDelete}
+                  data={chat}
+                />)
+              }
             </div>
 
           </div>

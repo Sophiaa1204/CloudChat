@@ -41,10 +41,9 @@ export default () => {
 
   return <div className={'layout overflow-hidden'}>
     <Nav />
-    {matchRouters[1]?.pathname !== '/init' &&
-      <aside className={'sidebar bg-light'}>
-        <Outlet />
-      </aside>}
+    <aside className={'sidebar bg-light'}>
+      <Outlet />
+    </aside>
     <Chat />
   </div>
 
