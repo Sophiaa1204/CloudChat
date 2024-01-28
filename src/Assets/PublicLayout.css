@@ -21436,8 +21436,8 @@ hr.offcanvas-divider {
 }
 
 .chat-footer {
-    width: calc(100% + (2rem));
-    margin-left: -1rem;
+    width: calc(100% - (2rem));
+    margin-left: 1rem;
     z-index: 1
 }
 
@@ -22408,4 +22408,13 @@ section {
 
 .w-300px{
     width: 300px;
+}
+
+.transparent-select{
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 0;
+    margin: -4px;
 }

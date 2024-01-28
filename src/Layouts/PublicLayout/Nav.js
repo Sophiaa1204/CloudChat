@@ -1,8 +1,8 @@
+import { Link } from 'react-router-dom'
 import { useUserStore } from '../../Store'
 
 export default () => {
   const { email, info, id } = useUserStore()
-  console.log(info)
   return <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
     <a href="index.html" title="Messenger" className="d-none d-xl-block mb-6">
       <svg
@@ -14,7 +14,7 @@ export default () => {
         x="0px"
         y="0px"
         viewBox="0 0 46 46"
-        enable-background="new 0 0 46 46"
+        enableBackground="new 0 0 46 46"
       >
         <polygon
           opacity="0.7"
@@ -44,9 +44,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-x"
             >
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -57,12 +57,11 @@ export default () => {
       </li>
 
       <li className="nav-item">
-        <a
+        <Link
           className="nav-link py-0 py-lg-8 active"
           id="tab-create-chat"
-          href="#tab-content-create-chat"
+          to="/init"
           title="Create chat"
-          data-bs-toggle="tab"
           role="tab"
           aria-selected="true"
         >
@@ -74,16 +73,16 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-edit-3"
             >
               <path d="M12 20h9"></path>
               <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
             </svg>
           </div>
-        </a>
+        </Link>
       </li>
 
       <li className="nav-item">
@@ -104,9 +103,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-users"
             >
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -136,9 +135,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-message-square"
             >
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -168,9 +167,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-bell"
             >
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -198,9 +197,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-layout"
             >
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -228,9 +227,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-moon"
             >
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -247,9 +246,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-sun"
             >
               <circle cx="12" cy="12" r="5"></circle>
@@ -284,9 +283,9 @@ export default () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="feather feather-settings"
             >
               <circle cx="12" cy="12" r="3"></circle>

@@ -58,7 +58,7 @@ export default () => {
                       x="0px"
                       y="0px"
                       viewBox="0 0 46 46"
-                      enable-background="new 0 0 46 46"
+                      enableBackground="new 0 0 46 46"
                     >
                       <polygon
                         opacity="0.7"

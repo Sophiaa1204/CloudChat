@@ -24,9 +24,9 @@ const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="feather feather-more-vertical"
         >
           <circle cx="12" cy="12" r="1"></circle>
@@ -50,9 +50,9 @@ const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="feather feather-edit-3"
               >
                 <path d="M12 20h9"></path>
@@ -76,9 +76,9 @@ const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="feather feather-corner-up-left"
                 >
                   <polyline points="9 14 4 9 9 4"></polyline>
@@ -174,9 +174,9 @@ const ContentBody = ({
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       className="feather feather-arrow-down"
                     >
                       <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -242,9 +242,9 @@ const SubmitButton = ({ onClick }) => {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className="feather feather-send"
     >
       <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -326,7 +326,7 @@ const TypingItem = ({ sender, content }) => {
         <div className="message-body">
           <div className="message-content">
             <div className="message-text">
-              <p>William is
+              <p>Cloud Chat Bot is
                 typing<span className="typing-dots"><span>.</span><span>.</span><span>.</span></span>
               </p>
             </div>
@@ -363,19 +363,6 @@ export default ({ messages = [], onRegenerate }) => {
       className="chat-body-inner"
     >
       <div className="py-6 py-lg-12">
-        {/*TODO*/}
-
-        <DateDivider date={'Monday, Sep 16'} />
-        <MessageItem
-          file={{
-            type: 'json',
-          }}
-          sender={1}
-          time={'08:45 PM'}
-          content={'Hey, Marshall! How are you? Can you please change the\n' +
-            '              color theme of the website to pink and purple?'}
-        ></MessageItem>
-        <TypingItem />
         {
           messages.map((item, index) => <MessageItem
             onSubmit={(__input) => handleSubmit(item.role, index, __input)}
@@ -385,6 +372,7 @@ export default ({ messages = [], onRegenerate }) => {
             isLast={messages.findLastIndex(item => item.role === 'assistant') === index}
           />)
         }
+        <TypingItem />
       </div>
     </div>
   </div>

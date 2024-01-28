@@ -1,6 +1,12 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
-import { Navigate, Outlet, useNavigate } from 'react-router'
+import {
+  Navigate,
+  Outlet,
+  useMatch,
+  useMatches,
+  useNavigate,
+} from 'react-router'
 import '../../Assets/PublicLayout.css'
 import { useUserStore } from '../../Store'
 import useFirebase from '../../Hooks/useFirebase'
@@ -12,11 +18,12 @@ export default () => {
   console.log(auth)
   const { set: setUser } = useUserStore()
   const navigate = useNavigate()
+  const matchRouters = useMatches()
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        navigate({ pathname: '/auth/oauth2', })
+        navigate({ pathname: '/auth/oauth2' })
       } else {
         console.log('user', user)
         setUser({
@@ -34,9 +41,10 @@ export default () => {
 
   return <div className={'layout overflow-hidden'}>
     <Nav />
-    <aside className={'sidebar bg-light'}>
-      <Outlet></Outlet>
-    </aside>
+    {matchRouters[1]?.pathname !== '/init' &&
+      <aside className={'sidebar bg-light'}>
+        <Outlet />
+      </aside>}
     <Chat />
   </div>
 

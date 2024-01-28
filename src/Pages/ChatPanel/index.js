@@ -28,9 +28,9 @@ export default () => {
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         className="feather feather-search"
                       >
                         <circle cx="11" cy="11" r="8"></circle>
@@ -78,9 +78,9 @@ export default () => {
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             className="feather feather-user"
                           >
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -117,9 +117,9 @@ export default () => {
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               className="feather feather-more-horizontal"
                             >
                               <circle cx="12" cy="12" r="1"></circle>
@@ -172,9 +172,9 @@ export default () => {
                                                                   viewBox="0 0 24 24"
                                                                   fill="none"
                                                                   stroke="currentColor"
-                                                                  stroke-width="2"
-                                                                  stroke-linecap="round"
-                                                                  stroke-linejoin="round"
+                                                                  strokeWidth="2"
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
                                                                   className="feather feather-star"
                                                                 ><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                                                             </span>
@@ -187,9 +187,9 @@ export default () => {
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             className="feather feather-gift"
                           >
                             <polyline points="20 12 20 22 4 22 4 12"></polyline>
@@ -229,9 +229,9 @@ export default () => {
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               className="feather feather-more-horizontal"
                             >
                               <circle cx="12" cy="12" r="1"></circle>
@@ -278,9 +278,9 @@ export default () => {
                                                                   viewBox="0 0 24 24"
                                                                   fill="none"
                                                                   stroke="currentColor"
-                                                                  stroke-width="2"
-                                                                  stroke-linecap="round"
-                                                                  stroke-linejoin="round"
+                                                                  strokeWidth="2"
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
                                                                   className="feather feather-lock"
                                                                 ><rect
                                                                   x="3"
@@ -300,9 +300,9 @@ export default () => {
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             className="feather feather-refresh-ccw"
                           >
                             <polyline points="1 4 1 10 7 10"></polyline>
@@ -339,9 +339,9 @@ export default () => {
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               className="feather feather-more-horizontal"
                             >
                               <circle cx="12" cy="12" r="1"></circle>
@@ -394,9 +394,9 @@ export default () => {
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             className="feather feather-image"
                           >
                             <rect
@@ -440,9 +440,9 @@ export default () => {
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               className="feather feather-more-horizontal"
                             >
                               <circle cx="12" cy="12" r="1"></circle>
@@ -485,9 +485,9 @@ export default () => {
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             className="feather feather-message-circle"
                           >
                             <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
@@ -524,9 +524,9 @@ export default () => {
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               className="feather feather-more-horizontal"
                             >
                               <circle cx="12" cy="12" r="1"></circle>
@@ -567,9 +567,9 @@ export default () => {
                                                                   viewBox="0 0 24 24"
                                                                   fill="none"
                                                                   stroke="currentColor"
-                                                                  stroke-width="2"
-                                                                  stroke-linecap="round"
-                                                                  stroke-linejoin="round"
+                                                                  strokeWidth="2"
+                                                                  strokeLinecap="round"
+                                                                  strokeLinejoin="round"
                                                                   className="feather feather-bell"
                                                                 ><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path
                                                                   d="M13.73 21a2 2 0 0 1-3.46 0"
@@ -584,9 +584,9 @@ export default () => {
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             className="feather feather-power"
                           >
                             <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
@@ -625,9 +625,9 @@ export default () => {
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               className="feather feather-more-horizontal"
                             >
                               <circle cx="12" cy="12" r="1"></circle>
