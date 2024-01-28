@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import useChatStore from '../../Store/chat'
 
 const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
 
@@ -344,7 +345,8 @@ const DateDivider = ({ date }) => {
   </div>
 }
 
-export default ({ messages = [], onRegenerate }) => {
+export default ({ onRegenerate }) => {
+  const { messages, isTyping } = useChatStore()
   const handleSubmit = (role, idx, input) => {
     if (role === 'user') {
       const updatedMessage = {
@@ -362,7 +364,7 @@ export default ({ messages = [], onRegenerate }) => {
     <div
       className="chat-body-inner"
     >
-      <div className="py-6 py-lg-12">
+      <div className="py-6 py-lg-12 px-4">
         {
           messages.map((item, index) => <MessageItem
             onSubmit={(__input) => handleSubmit(item.role, index, __input)}
@@ -372,7 +374,7 @@ export default ({ messages = [], onRegenerate }) => {
             isLast={messages.findLastIndex(item => item.role === 'assistant') === index}
           />)
         }
-        <TypingItem />
+        {isTyping && <TypingItem />}
       </div>
     </div>
   </div>

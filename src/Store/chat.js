@@ -4,8 +4,9 @@ const useChatStore = create((set) => ({
   id: null,
   model: null,
   messages: [],
+  key: null,
   input: '',
-  isTyping: true,
+  isTyping: false,
   setInit: () => set({
     id: null,
     model: null,
@@ -16,7 +17,10 @@ const useChatStore = create((set) => ({
   setInfo: (data) => set({
     ...data,
   }),
-  setTyping: (data) => set({
+  setModel: (data) => set({
+    model: data,
+  }),
+  setIsTyping: (data) => set({
     isTyping: data,
   }),
   setMessages: (data) => set({
@@ -24,6 +28,12 @@ const useChatStore = create((set) => ({
   }),
   setInput: (data) => set({
     input: data,
+  }),
+  setKey: (data) => set({
+    key: data,
+  }),
+  setId: (data) => set({
+    id: data,
   }),
 }))
 
