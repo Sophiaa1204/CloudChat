@@ -172,7 +172,7 @@ export default () => {
                       id: chat.id,
                       key: chat.key,
                       messages: chat.messages,
-                      model: chat.model,
+                      model: chat.model || 'gpt-3.5-turbo',
                       input: '',
                       isTyping: false,
                     })}

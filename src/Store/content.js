@@ -10,7 +10,7 @@ const useContentStore = create((set) => ({
   isTyping: false,
   setInit: () => set({
     id: uuid.v4(),
-    model: null,
+    model: 'gpt-3.5-turbo',
     messages: [],
     isTyping: false,
     input: '',
@@ -19,7 +19,7 @@ const useContentStore = create((set) => ({
     ...data,
   }),
   setModel: (data) => set({
-    model: data,
+    model: data || 'gpt-3.5-turbo',
   }),
   setIsTyping: (data) => set({
     isTyping: data,
