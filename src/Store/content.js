@@ -5,7 +5,7 @@ const useContentStore = create((set) => ({
   id: null,
   model: null,
   messages: [],
-  key: null,
+  key: '',
   input: '',
   isTyping: false,
   setInit: () => set({
@@ -14,6 +14,7 @@ const useContentStore = create((set) => ({
     messages: [],
     isTyping: false,
     input: '',
+    key: null,
   }),
   setInfo: (data) => set({
     ...data,
@@ -30,9 +31,12 @@ const useContentStore = create((set) => ({
   setInput: (data) => set({
     input: data,
   }),
-  setKey: (data) => set({
-    key: data,
-  }),
+  setKey: (data) => {
+    console.log('setKey', data)
+    set({
+      key: data,
+    })
+  },
   setId: (data) => set({
     id: data,
   }),

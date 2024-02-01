@@ -1,11 +1,12 @@
 import dayjs from 'dayjs'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import RegisterModel from './RegisterModel'
 import { useUserStore } from '../../Store'
 import chat from '../../Store/chat'
 import useContentStore from '../../Store/content'
 import useChatStore from '../../Store/chat'
 
-import { cloudChat, createOrUpdateMessages } from '../../Api'
+import { cloudChat, createOrUpdateMessages, cloudChatModel } from '../../Api'
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import ChatContent from './ChatContent'
@@ -25,10 +26,30 @@ export default () => {
     setMessages,
     setIsTyping,
     setInfo,
+    setKey,
   } = useContentStore()
   const { id: userId } = useUserStore()
   const { updateChat, addChat, chats } = useChatStore()
+  const isSentFailed = useMemo(
+    () => messages.length > 0
+      ? messages[messages.length - 1].role === 'user'
+      : false,
+    [messages],
+  )
+  useEffect(() => {
+    isSentFailed && key && model !== 'gpt-3.5-turbo' && handleRegenerate(
+      messages)
+  }, [isSentFailed, key, messages])
   const currentRows = useMemo(() => input.split('\n').length, [input])
+  const isSetKey = useMemo(() => {
+    if (model === 'gpt-3.5-turbo') {
+      return true
+    } else if (!key) {
+      return false
+    } else {
+      return true
+    }
+  }, [model, key])
   useEffect(() => {
     if (controller) {
       controller.abort('abort')
@@ -37,8 +58,11 @@ export default () => {
       setMessages(messages.slice(0, messages.length - 1))
     }
   }, [chatId])
+
   const handleRegenerate = (newMessages) => {
-    console.log(newMessages)
+    setMessages(newMessages)
+    setIsTyping(true)
+    invokeBot(newMessages)
   }
   const handleSubmit = () => {
     if (!input) return
@@ -56,7 +80,9 @@ export default () => {
     try {
       controller = new AbortController()
       signal = controller.signal
-      const data = await cloudChat(_messages, signal)
+      const data = model === 'gpt-3.5-turbo'
+        ? await cloudChat(_messages, signal)
+        : await cloudChatModel(model, key, _messages, signal)
       const currentMessages = [
         ..._messages,
         {
@@ -69,6 +95,7 @@ export default () => {
       invokeSaveChat(currentMessages)
     } catch (e) {
       console.log(e)
+      setKey('')
     } finally {
       setIsTyping(false)
     }
@@ -76,6 +103,7 @@ export default () => {
   const invokeSaveChat = async(currentMessages) => {
     const isUpdate = chats.find(i => i.id === chatId)
     if (isUpdate) {
+      console.log('update')
       updateChat({
         id: chatId,
         model: model,
@@ -83,11 +111,13 @@ export default () => {
         messages: currentMessages,
       })
     } else {
+      console.log('add')
       addChat({
         id: chatId,
         model: model,
         key: key,
         messages: currentMessages,
+        _ts: new Date().getTime() / 1000,
       })
     }
     const data = await createOrUpdateMessages({
@@ -97,6 +127,7 @@ export default () => {
       key,
       userId,
     })
+    console.log('update')
     if (!isUpdate) {
       updateChat(data)
     }
@@ -118,17 +149,22 @@ export default () => {
       <div className="h-100">
         <div className="d-flex flex-column h-100 position-relative">
           <ChatHeader />
-          <ChatContent
-            currentRows={currentRows}
-            onRegenerate={handleRegenerate}
-          />
-          <ChatInput
-            currentRows={currentRows}
-            input={input}
-            setInput={setInput}
-            onSubmit={handleSubmit}
-            onAbort={handleAbort}
-          />
+          {
+            isSetKey ? <>
+                <ChatContent
+                  currentRows={currentRows}
+                  onRegenerate={handleRegenerate}
+                />
+                <ChatInput
+                  currentRows={currentRows}
+                  input={input}
+                  setInput={setInput}
+                  onSubmit={handleSubmit}
+                  onAbort={handleAbort}
+                />
+              </>
+              : <RegisterModel onRetry={() => handleRegenerate(messages)} />
+          }
         </div>
       </div>
     </main>

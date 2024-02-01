@@ -117,6 +117,7 @@ export default () => {
   const { setInfo, setInit } = useContentStore()
   const { chats, setChats } = useChatStore()
   const sortedChats = useMemo(() => {
+    console.log('chats', chats)
     const sortByDate = chats.map(item => dayjs(item._ts * 1000).format(
       'YYYY-MM-DD'))
     const uniqueDates = [...new Set(sortByDate)]
@@ -127,7 +128,7 @@ export default () => {
     })).sort((a, b) => dayjs(b.date).unix() - dayjs(a.date).unix())
     .map(item => {
       return {
-        ...item,
+        chats: item.chats.sort((a, b) => b._ts - a._ts),
         date: (item.date === dayjs().format('YYYY-MM-DD'))
           ? 'Today'
           : item.date,
@@ -152,37 +153,52 @@ export default () => {
     >
       <div className="d-flex flex-column h-100">
         <div className="hide-scrollbar">
-          <div className="container py-8">
+          <div
+            className="container py-8" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+          }}
+          >
 
             <div className="mb-8">
               <h2 className="fw-bold m-0">Chats</h2>
             </div>
 
-            {
-              sortedChats.map(sortedChat => <div className="card-list mt-8">
+            <div
+              className="list-wrapper" style={{
+              flex: 1,
+              height: 'calc(100vh - 3rem - 42px)',
+              overflowY: 'auto',
+            }}
+            >
+              {
+                sortedChats.map(sortedChat => <div className="card-list mt-8">
 
-                <div className="d-flex align-items-center my-4 px-6">
-                  <small className="text-muted me-auto">{sortedChat.date}</small>
+                  <div className="d-flex align-items-center my-4 px-6">
+                    <small className="text-muted me-auto">{sortedChat.date}</small>
 
-                  {/*<a href="#" className="text-muted small">Clear all</a>*/}
-                </div>
-                {
-                  sortedChat.chats.map(chat => <ChatItem
-                    onSelect={() => setInfo({
-                      id: chat.id,
-                      key: chat.key,
-                      messages: chat.messages,
-                      model: chat.model || 'gpt-3.5-turbo',
-                      input: '',
-                      isTyping: false,
-                    })}
-                    onDelete={handleDelete}
-                    data={chat}
-                  />)
-                }
-              </div>)
-            }
+                    {/*<a href="#" className="text-muted small">Clear all</a>*/}
+                  </div>
+                  {
+                    sortedChat.chats.map(chat => <ChatItem
+                      key={chat.id}
+                      onSelect={() => setInfo({
+                        id: chat.id,
+                        key: chat.key,
+                        messages: chat.messages,
+                        model: chat.model || 'gpt-3.5-turbo',
+                        input: '',
+                        isTyping: false,
+                      })}
+                      onDelete={handleDelete}
+                      data={chat}
+                    />)
+                  }
+                </div>)
+              }
 
+            </div>
           </div>
         </div>
       </div>

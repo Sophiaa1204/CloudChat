@@ -108,3 +108,35 @@ export const deleteChat = (id) => new Promise(async(resolve, reject) => {
   )
   resolve()
 })
+
+
+export const cloudChatModel = (model, key, messages, signal) => new Promise(async(
+  resolve,
+  reject,
+) => {
+  try {
+    const resp = await fetch(
+      `https://prod-90.eastus.logic.azure.com/workflows/3c530080aa574c2dbe9f77cc58537edf/triggers/manual/paths/invoke/v1/chat/${model}/${key}?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=wv4CV5f0iMTLjlkIyVe_ws8_nckMuhNxNqYhWSDYwTQ`,
+      {
+        signal,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messages.map(i => ({
+          role: i.role,
+          content: i.content,
+        }))),
+      },
+    )
+    const json = await resp.json()
+    if (json.error) {
+      reject(json.error)
+    } else {
+      resolve(json)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+
+})

@@ -65,7 +65,7 @@ export default function ChatHeader() {
                     setModel(e.target.value)
                   }} className={'transparent-select'}
                   >
-                    <option value={''}>Select Model</option>
+                    {/*<option value={''}>Select Model</option>*/}
                     <option value={'gpt-4-turbo-preview'}>gpt-4-turbo-preview</option>
                     <option value={'gpt-4-vision-preview'}>gpt-4-vision-preview</option>
                     <option value={'gpt-4-32k'}>gpt-4-32k</option>

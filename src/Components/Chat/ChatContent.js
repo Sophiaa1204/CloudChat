@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import { useUserStore } from '../../Store'
 import useContentStore from '../../Store/content'
 
 const MessageAction = ({ role, onEdit, onCopy, onRefresh, isLast }) => {
@@ -254,12 +255,14 @@ const SubmitButton = ({ onClick }) => {
   </button>
 }
 const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
+  const { email, info, id } = useUserStore()
   const [isEdit, setIsEdit] = useState(false)
   const contentEditRef = useRef(null)
   const handleSubmit = () => {
     if (contentEditRef.current) {
       onSubmit(contentEditRef.current.input)
     }
+    setIsEdit(false)
   }
   return <div className={`message ${role === 'user' ? 'message-out' : ''}`}>
     <a
@@ -270,7 +273,7 @@ const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
     >
       <img
         className="avatar-img"
-        src="https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg"
+        src={role === 'user'?(info.photoURL||"https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg"):"https://static.vecteezy.com/system/resources/previews/021/059/827/non_2x/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg"}
         alt=""
       />
     </a>

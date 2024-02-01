@@ -8,17 +8,20 @@ const useChatStore = create((set) => ({
   updateChat: (chat) => set(state => {
     const index = state.chats.findIndex(i => i.id === chat.id)
     if (index > -1) {
-      state.chats[index] = {
+      const chats = [...state.chats]
+      chats[index] = {
         ...state.chats[index],
         ...chat,
       }
-      return { ...state }
+      return { ...state, chats }
     }
     return state
   }),
   addChat: (chat) => set(state => {
-    state.chats.push(chat)
-    return { ...state }
+    return {
+      ...state,
+      chats: [...state.chats, chat],
+    }
   }),
 }))
 
