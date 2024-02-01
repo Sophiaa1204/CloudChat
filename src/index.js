@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
+import BotPanel from './Pages/BotPanel'
 import OauthPage from './Pages/OauthPage'
 import AuthLayout from './Layouts/AuthLayout'
 import ChatPanel from './Pages/ChatPanel'
@@ -17,6 +18,10 @@ export const routes = [
       {
         path: '',
         element: <ChatPanel />,
+      },
+      {
+        path: 'bots',
+        element: <BotPanel />,
       },
     ],
   },

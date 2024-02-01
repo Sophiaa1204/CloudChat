@@ -60,7 +60,7 @@ export default () => {
 
       <li className="nav-item">
         <a
-          className="nav-link py-0 py-lg-8 active"
+          className="nav-link py-0 py-lg-8"
           id="tab-create-chat"
           onClick={() => setInit()}
           title="Create chat"
@@ -88,14 +88,12 @@ export default () => {
       </li>
 
       <li className="nav-item">
-        <a
+        <Link
           className="nav-link py-0 py-lg-8"
           id="tab-friends"
-          href="#tab-content-friends"
+          to="/bots"
           title="Friends"
-          data-bs-toggle="tab"
           role="tab"
-          aria-selected="false"
         >
           <div className="icon icon-xl">
             <svg
@@ -116,18 +114,16 @@ export default () => {
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
           </div>
-        </a>
+        </Link>
       </li>
 
       <li className="nav-item">
-        <a
+        <Link
           className="nav-link py-0 py-lg-8"
           id="tab-chats"
-          href="#tab-content-chats"
+          to="/"
           title="Chats"
-          data-bs-toggle="tab"
           role="tab"
-          aria-selected="false"
         >
           <div className="icon icon-xl icon-badged">
             <svg
@@ -148,37 +144,7 @@ export default () => {
               <span>4</span>
             </div>
           </div>
-        </a>
-      </li>
-
-      <li className="nav-item">
-        <a
-          className="nav-link py-0 py-lg-8"
-          id="tab-notifications"
-          href="#tab-content-notifications"
-          title="Notifications"
-          data-bs-toggle="tab"
-          role="tab"
-          aria-selected="false"
-        >
-          <div className="icon icon-xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-bell"
-            >
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-            </svg>
-          </div>
-        </a>
+        </Link>
       </li>
 
       <li className="nav-item d-none d-xl-block flex-xl-grow-1">
@@ -207,61 +173,6 @@ export default () => {
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="3" y1="9" x2="21" y2="9"></line>
               <line x1="9" y1="21" x2="9" y2="9"></line>
-            </svg>
-          </div>
-        </a>
-      </li>
-
-      <li className="nav-item d-none d-xl-block">
-        <a
-          className="switcher-btn nav-link py-0 py-lg-8"
-          href="#!"
-          title="Themes"
-        >
-          <div
-            className="switcher-icon switcher-icon-dark icon icon-xl d-none"
-            data-theme-mode="dark"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-moon"
-            >
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </div>
-          <div
-            className="switcher-icon switcher-icon-light icon icon-xl"
-            data-theme-mode="light"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-sun"
-            >
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             </svg>
           </div>
         </a>
