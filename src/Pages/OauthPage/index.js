@@ -35,7 +35,7 @@ export default () => {
           <div className="bg-mode shadow rounded-3 overflow-hidden">
             <div className="row g-0">
               <div className="col-lg-6 d-flex align-items-center order-2 order-lg-1">
-                <div className="p-6 p-lg-10">
+                <div className="p-6 p-lg-10 d-none d-md-block">
                   <img
                     src={loginSvg} alt="" style={{
                     'maxWidth': '100%',
