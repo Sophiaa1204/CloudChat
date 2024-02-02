@@ -95,7 +95,6 @@ function BotItem({ data, isPublic }) {
               : <div className="dropdown">
                 <a
                   className="icon text-muted"
-                  href="#"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"

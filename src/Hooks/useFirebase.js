@@ -141,11 +141,15 @@ export default () => {
 
   }
 
+  const logout = async() => {
+    await auth.signOut()
+  }
   //Google
   //Facebook
   return {
     signInWithEmail,
     signInWithType,
     resetPassword,
+    logout,
   }
 }

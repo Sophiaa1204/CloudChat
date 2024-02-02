@@ -254,7 +254,15 @@ const SubmitButton = ({ onClick }) => {
     </svg>
   </button>
 }
-const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
+const MessageItem = ({
+  role,
+  content,
+  time,
+  file,
+  onSubmit,
+  isLast,
+  avatar,
+}) => {
   const { email, info, id } = useUserStore()
   const [isEdit, setIsEdit] = useState(false)
   const contentEditRef = useRef(null)
@@ -275,7 +283,7 @@ const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
         className="avatar-img"
         src={role === 'user'
           ? (info.photoURL || 'https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg')
-          : 'https://static.vecteezy.com/system/resources/previews/021/059/827/non_2x/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg'}
+          : (avatar || `https://aichatdb.blob.core.windows.net/attachment/defaultAvatar.png`)}
         alt=""
       />
     </a>
@@ -311,7 +319,7 @@ const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
   </div>
 }
 
-const TypingItem = ({ sender, content }) => {
+const TypingItem = ({ avatar, sender, content }) => {
 
   return <div className={`message ${sender ? 'message-out' : ''}`}>
     <a
@@ -322,7 +330,7 @@ const TypingItem = ({ sender, content }) => {
     >
       <img
         className="avatar-img"
-        src="https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg"
+        src={avatar || `https://aichatdb.blob.core.windows.net/attachment/defaultAvatar.png`}
         alt=""
       />
     </a>
@@ -351,7 +359,7 @@ const DateDivider = ({ date }) => {
 }
 
 export default ({ onRegenerate }) => {
-  const { messages, isTyping } = useContentStore()
+  const { messages, isTyping, avatar, title } = useContentStore()
   const handleSubmit = (role, idx, input) => {
     if (role === 'user') {
       const updatedMessage = {
@@ -372,6 +380,7 @@ export default ({ onRegenerate }) => {
       <div className="py-6 py-lg-12 px-4">
         {
           messages.map((item, index) => <MessageItem
+            avatar={avatar}
             key={index}
             onSubmit={(__input) => handleSubmit(item.role, index, __input)}
             role={item.role}
@@ -380,7 +389,7 @@ export default ({ onRegenerate }) => {
             isLast={messages.findLastIndex(item => item.role === 'assistant') === index}
           />)
         }
-        {isTyping && <TypingItem />}
+        {isTyping && <TypingItem avatar={avatar} />}
       </div>
     </div>
   </div>

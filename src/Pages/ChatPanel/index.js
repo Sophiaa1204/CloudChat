@@ -185,6 +185,8 @@ export default () => {
                         model: chat.model || 'gpt-3.5-turbo',
                         input: '',
                         isTyping: false,
+                        avatar: chat.avatar,
+                        title: chat.title,
                       })}
                       onDelete={handleDelete}
                       data={chat}

@@ -238,10 +238,7 @@ export default () => {
                     </div>
 
                     <div className="text-primary-hover text-body mt-3 text-center"> Copyrights
-                      ©2023 Booking. Build by <a
-                        href="https://www.webestica.com/"
-                        className="text-body"
-                      >Webestica</a>.
+                      ©2024 Build by Sophia.
                     </div>
                   </form>
                 </div>

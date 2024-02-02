@@ -6,6 +6,7 @@ const useUserStore = create((set) => ({
   info: {},
   chat: [],
   set: (data) => set(data),
+
 }))
 
 export default useUserStore

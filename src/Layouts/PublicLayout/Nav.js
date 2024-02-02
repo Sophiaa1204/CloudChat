@@ -1,17 +1,40 @@
 import { useMemo } from 'react'
-import { useMatches } from 'react-router'
+import { useMatches, useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
+import useBotStore from '../../Store/bot'
+import useChatStore from '../../Store/chat'
+import useFirebase from '../../Hooks/useFirebase'
 import useContentStore from '../../Store/content'
 import { useUserStore } from '../../Store'
 
 export default () => {
-  const { email, info, id } = useUserStore()
+  const { email, info, id, set } = useUserStore()
+  const { logout } = useFirebase()
   const { setInit } = useContentStore()
+  const { resetInfo } = useBotStore()
+  const { setChats } = useChatStore()
+
   const matchRouters = useMatches()
+  const navigate = useNavigate()
   const currentPath = useMemo(() => {
     const last = matchRouters[matchRouters.length - 1]
     return last?.pathname
   }, [matchRouters])
+
+  const handleLogOut = () => {
+    logout()
+    sessionStorage.clear()
+    setInit()
+    resetInfo()
+    setChats([])
+    set({
+      email: null,
+      id: null,
+      info: {},
+      chat: [],
+    })
+    navigate({ pathname: '/auth/oauth2' })
+  }
   return <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
     <a href="index.html" title="Messenger" className="d-none d-xl-block mb-6">
       <svg
@@ -191,7 +214,7 @@ export default () => {
         <a
           className="nav-link py-0 py-lg-8"
           id="tab-settings"
-          href="#tab-content-settings"
+          onClick={handleLogOut}
           title="Settings"
           data-bs-toggle="tab"
           role="tab"
@@ -202,36 +225,45 @@ export default () => {
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-settings"
+              fill="currentColor"
+              className="feather feather-layout"
+              viewBox="0 0 16 16"
             >
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              <path
+                fill-rule="evenodd"
+                d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"
+              />
             </svg>
           </div>
         </a>
       </li>
 
       <li className="nav-item d-none d-xl-block">
-        <a
-          href="#"
-          className="nav-link p-0 mt-lg-2"
-          data-bs-toggle="modal"
-          data-bs-target="#modal-profile"
-        >
-          <div className="avatar avatar-online mx-auto bg-success align-content-center justify-content-center">
-            {
-              info.photoURL
-                ? <img className="avatar-img" src={info.photoURL} alt="" />
-                : <span>{email ? email.slice(0, 1) : 'U'}</span>
-            }
-          </div>
-        </a>
+        <div className="dropdown">
+          <a
+            role={'button'}
+            className="nav-link p-0 mt-lg-2"
+            aria-expanded="false"
+          >
+            <div className="avatar avatar-online mx-auto bg-success align-content-center justify-content-center">
+              {
+                info.photoURL
+                  ? <img className="avatar-img" src={info.photoURL} alt="" />
+                  : <span>{email ? email.slice(0, 1) : 'U'}</span>
+              }
+            </div>
+          </a>
+          <ul className="dropdown-menu">
+            <li onClick={() => handleLogOut()}>
+              <a role={'button'} className="dropdown-item text-danger">Log
+                out</a>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
   </nav>
