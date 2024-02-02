@@ -27,6 +27,8 @@ export default () => {
     setIsTyping,
     setInfo,
     setKey,
+    title,
+    avatar,
   } = useContentStore()
   const { id: userId } = useUserStore()
   const { updateChat, addChat, chats } = useChatStore()
@@ -109,6 +111,8 @@ export default () => {
         model: model,
         key: key,
         messages: currentMessages,
+        title,
+        avatar,
       })
     } else {
       console.log('add')
@@ -118,6 +122,8 @@ export default () => {
         key: key,
         messages: currentMessages,
         _ts: new Date().getTime() / 1000,
+        title,
+        avatar,
       })
     }
     const data = await createOrUpdateMessages({
@@ -126,6 +132,8 @@ export default () => {
       model,
       key,
       userId,
+      title,
+      avatar,
     })
     console.log('update')
     if (!isUpdate) {
