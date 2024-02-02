@@ -55,7 +55,7 @@ export default () => {
       controller.abort('abort')
       controller = null
       signal = null
-      setMessages(messages.slice(0, messages.length - 1))
+      //setMessages(messages.slice(0, messages.length - 1))
     }
   }, [chatId])
 

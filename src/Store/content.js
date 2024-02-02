@@ -8,6 +8,8 @@ const useContentStore = create((set) => ({
   key: '',
   input: '',
   isTyping: false,
+  avatar: '',
+  title: '',
   setInit: () => set({
     id: uuid.v4(),
     model: 'gpt-3.5-turbo',

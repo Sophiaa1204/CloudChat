@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   Navigate,
   Outlet,
@@ -8,6 +8,7 @@ import {
   useNavigate,
 } from 'react-router'
 import '../../Assets/PublicLayout.css'
+import Bot from '../../Components/Bot'
 import { useUserStore } from '../../Store'
 import useFirebase from '../../Hooks/useFirebase'
 import Chat from '../../Components/Chat'
@@ -19,6 +20,10 @@ export default () => {
   const { set: setUser } = useUserStore()
   const navigate = useNavigate()
   const matchRouters = useMatches()
+  const currentPath = useMemo(() => {
+    const last = matchRouters[matchRouters.length - 1]
+    return last?.pathname
+  }, [matchRouters])
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -44,7 +49,10 @@ export default () => {
     <aside className={'sidebar bg-light'}>
       <Outlet />
     </aside>
-    <Chat />
+    {
+      currentPath === '/' ? <Chat /> : <Bot />
+
+    }
   </div>
 
 }

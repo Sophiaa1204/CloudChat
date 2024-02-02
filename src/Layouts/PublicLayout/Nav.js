@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+import { useMatches } from 'react-router'
 import { Link } from 'react-router-dom'
 import useContentStore from '../../Store/content'
 import { useUserStore } from '../../Store'
@@ -5,6 +7,11 @@ import { useUserStore } from '../../Store'
 export default () => {
   const { email, info, id } = useUserStore()
   const { setInit } = useContentStore()
+  const matchRouters = useMatches()
+  const currentPath = useMemo(() => {
+    const last = matchRouters[matchRouters.length - 1]
+    return last?.pathname
+  }, [matchRouters])
   return <nav className="navigation d-flex flex-column text-center navbar navbar-light hide-scrollbar">
     <a href="index.html" title="Messenger" className="d-none d-xl-block mb-6">
       <svg
@@ -86,10 +93,42 @@ export default () => {
           </div>
         </a>
       </li>
-
       <li className="nav-item">
         <Link
-          className="nav-link py-0 py-lg-8"
+          className={`nav-link py-0 py-lg-8 ${currentPath === '/'
+            ? 'active'
+            : ''}`}
+          id="tab-chats"
+          to="/"
+          title="Chats"
+          role="tab"
+        >
+          <div className="icon icon-xl icon-badged">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="feather feather-message-square"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <div className="badge badge-circle bg-primary">
+              <span>4</span>
+            </div>
+          </div>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link
+          className={`nav-link py-0 py-lg-8 ${currentPath === '/bots'
+            ? 'active'
+            : ''}`}
           id="tab-friends"
           to="/bots"
           title="Friends"
@@ -117,45 +156,15 @@ export default () => {
         </Link>
       </li>
 
-      <li className="nav-item">
-        <Link
-          className="nav-link py-0 py-lg-8"
-          id="tab-chats"
-          to="/"
-          title="Chats"
-          role="tab"
-        >
-          <div className="icon icon-xl icon-badged">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="feather feather-message-square"
-            >
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <div className="badge badge-circle bg-primary">
-              <span>4</span>
-            </div>
-          </div>
-        </Link>
-      </li>
-
       <li className="nav-item d-none d-xl-block flex-xl-grow-1">
-        <a
-          className="nav-link py-0 py-lg-8"
+        <Link
+          className={`nav-link py-0 py-lg-8 ${currentPath === '/public'
+            ? 'active'
+            : ''}`}
           id="tab-support"
-          href="#tab-content-support"
+          to={'/public'}
           title="Support"
-          data-bs-toggle="tab"
           role="tab"
-          aria-selected="false"
         >
           <div className="icon icon-xl">
             <svg
@@ -175,7 +184,7 @@ export default () => {
               <line x1="9" y1="21" x2="9" y2="9"></line>
             </svg>
           </div>
-        </a>
+        </Link>
       </li>
 
       <li className="nav-item">

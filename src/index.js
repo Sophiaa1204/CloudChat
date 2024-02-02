@@ -23,6 +23,10 @@ export const routes = [
         path: 'bots',
         element: <BotPanel />,
       },
+      {
+        path: 'public',
+        element: <BotPanel isPublic />,
+      },
     ],
   },
   {

@@ -53,7 +53,7 @@ export default () => {
   const saveUserInfo = async(user) => {
     return createOrUpdateUser({
       id: user.uid,
-      email: user.email,
+      email: user.email || user.providerData?.[0]?.email,
       info: {
         signInMethod: user.signInMethod,
         displayName: user.displayName,

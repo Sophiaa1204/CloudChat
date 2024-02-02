@@ -166,7 +166,7 @@ const ContentBody = ({
                 {
                   file.type.includes('image')
                     ? <img
-                      src={'https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg'}
+                      src={'https://static.vecteezy.com/system/resources/previews/021/059/827/non_2x/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg'}
                       className={'img-fluid rounded'}
                     />
                     : <svg
@@ -273,7 +273,9 @@ const MessageItem = ({ role, content, time, file, onSubmit, isLast }) => {
     >
       <img
         className="avatar-img"
-        src={role === 'user'?(info.photoURL||"https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg"):"https://static.vecteezy.com/system/resources/previews/021/059/827/non_2x/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg"}
+        src={role === 'user'
+          ? (info.photoURL || 'https://offsetcode.com/themes/messenger/2.2.0/assets/img/avatars/11.jpg')
+          : 'https://static.vecteezy.com/system/resources/previews/021/059/827/non_2x/chatgpt-logo-chat-gpt-icon-on-white-background-free-vector.jpg'}
         alt=""
       />
     </a>
@@ -370,6 +372,7 @@ export default ({ onRegenerate }) => {
       <div className="py-6 py-lg-12 px-4">
         {
           messages.map((item, index) => <MessageItem
+            key={index}
             onSubmit={(__input) => handleSubmit(item.role, index, __input)}
             role={item.role}
             content={item.content}
